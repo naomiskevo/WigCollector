@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Wig Details</h1>
+
+<div class="card">
+  <div class="card-content">
+    <span class="card-title">{{ wig.name }}</span>
+    <p>Origin: {{ wig.origin }}</p>
+    <p>Description: {{ wig.description }}</p>
+    <p>Length: {{ wig.length }}</p>
+  </div>
+</div>
+
+{% endblock %}
