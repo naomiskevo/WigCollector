@@ -65,6 +65,16 @@ def add_condition(request, wig_id):
         new_condition.save()
     return redirect('detail', wig_id=wig_id)
 
+@login_required
+def assoc_type(request, wig_id, type_id):
+  Wig.objects.get(id=wig_id).types.add(type_id)
+  return redirect('detail', wig_id=wig_id)
+
+@login_required
+def unassoc_type(request, wig_id, type_id):
+  Wig.objects.get(id=wig_id).types.remove(type_id)
+  return redirect('detail', wig_id=wig_id)
+
 class TypeList(LoginRequiredMixin, ListView):
     model = Type
 
