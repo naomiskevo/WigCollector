@@ -45,9 +45,11 @@ def wigs_index(request):
 @login_required
 def wigs_detail(request, wig_id):
     wig = Wig.objects.get(id=wig_id)
+    types_wig_doesnt_have = Type.objects.exclude(id__in = wig.types.all().values_list('id'))
     condition_form = ConditionForm()
     return render(request, 'wigs/detail.html', { 
-        'wig': wig, 'condition_form': condition_form, 
+        'wig': wig, 'condition_form': condition_form,
+        'types': types_wig_doesnt_have 
     })
 
 @login_required

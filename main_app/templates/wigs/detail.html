@@ -77,6 +77,28 @@
       <h5>No {{wig.name}}s Available :(</h5>
     {% endif %}
   </div>
+  <div class="col s6">
+    <h3>Available Typess</h3>
+    {% if types.count %}
+      {% for type in types.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              A {{ type.part }} wig with a {{ type.make }}
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>{{wig.name}} Is Available is All Types</h5>
+    {% endif %}
+  </div>
 </div>
 <script>
   var dateEl = document.getElementById('id_date');
