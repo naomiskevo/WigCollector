@@ -1,5 +1,14 @@
 from django.shortcuts import render
+from django.views.generic.edit import CreateView
 from .models import Wig
+
+class WigCreate(CreateView):
+  model = Wig
+  fields = ['name', 'origin', 'description', 'length']
+
+  def form_valid(self, form):
+    form.instance.user = self.request.user
+    return super().form_valid(form)
 
 
 # Create your views here.

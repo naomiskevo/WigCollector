@@ -5,7 +5,7 @@
 
 {% for wig in wigs %}
   <div class="card">
-    <a href="/wigs/{{ wig.id }}">
+    <a href="{% url 'detail' wig.id %}">
       <div class="card-content">
           <span class="card-title">{{ wig.name }}</span>
           <p>Origin: {{ wig.origin }}</p>

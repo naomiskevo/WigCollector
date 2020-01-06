@@ -17,8 +17,9 @@
           <li><a href="/" class="left brand-logo">&nbsp;&nbsp;WigCollector</a></li>
         </ul>
         <ul class="right">
-          <li><a href="/about">About</a></li>
-          <li><a href="/wigs">View All My Wigs</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'wigs_create' %}">Add a Wig</a></li>
+          <li><a href="{% url 'index' %}">View All My Wigs</a></li>
         </ul>
       </div>
     </nav>
