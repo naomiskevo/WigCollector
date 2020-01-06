@@ -9,6 +9,16 @@ TREATMENTS = (
 
 )
 
+class Type(models.Model):
+  part = models.CharField(max_length=50)
+  make = models.CharField(max_length=20)
+
+  def __str__(self):
+    return self.name
+
+  def get_absolute_url(self):
+    return reverse('types_detail', kwargs={'pk': self.id})
+
 
 class Wig(models.Model):
     name = models.CharField(max_length=100)
@@ -23,7 +33,7 @@ class Wig(models.Model):
         return reverse('detail', kwargs={'wig_id': self.id})
 
     def conditioned_for_today(self):
-        return self.condition_set.filter(date=date.today()).count() >= len(TREATMENTS)
+        return self.condition_set.filter(date=date.today()).count() >= 1
 
 class Condition(models.Model):
   date = models.DateField('condition date')

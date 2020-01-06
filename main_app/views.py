@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
+from .models import Wig, Type, Photo
 from .forms import ConditionForm
 import uuid
 import boto3
-from .models import Wig, Photo
 
 S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
 BUCKET = 'wigcollector'
@@ -54,6 +55,24 @@ def add_condition(request, wig_id):
         new_condition.wig_id = wig_id
         new_condition.save()
     return redirect('detail', wig_id=wig_id)
+
+class TypeList(ListView):
+    model = Type
+
+class TypeDetail(DetailView):
+    model = Type
+
+class TypeCreate(CreateView):
+    model = Type
+    fields = '__all__'
+
+class TypeUpdate(UpdateView):
+    model = Type
+    fields = ['part', 'make']
+
+class TypeDelete(DeleteView):
+    model = Type
+    success_url = '/types/'
 
 def add_photo(request, wig_id):
     # photo-file will be the "name" attribute on the <input type="file">
