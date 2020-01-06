@@ -11,11 +11,11 @@ TREATMENTS = (
 )
 
 class Type(models.Model):
-  part = models.CharField(max_length=50)
   make = models.CharField(max_length=20)
+  part = models.CharField(max_length=50)
 
   def __str__(self):
-    return self.name
+    return self.make
 
   def get_absolute_url(self):
     return reverse('types_detail', kwargs={'pk': self.id})

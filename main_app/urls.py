@@ -18,4 +18,6 @@ urlpatterns = [
     path('types/<int:pk>/update/', views.TypeUpdate.as_view(), name='types_update'),
     path('types/<int:pk>/delete/', views.TypeDelete.as_view(), name='types_delete'),
     path('accounts/signup/', views.signup, name='signup'),
+    path('wigs/<int:wig_id>/assoc_type/<int:type_id>/', views.assoc_type, name='assoc_type'),
+    path('wigs/<int:wig_id>/unassoc_type/<int:type_id>/', views.unassoc_type, name='unassoc_type'),
 ]
