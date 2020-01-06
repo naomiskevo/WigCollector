@@ -10,6 +10,10 @@
     <p>Description: {{ wig.description }}</p>
     <p>Length: {{ wig.length }}</p>
   </div>
+  <div class="card-action">
+    <a href="{% url 'wigs_update' wig.id %}">Edit</a>
+    <a href="{% url 'wigs_delete' wig.id %}">Delete</a>
+  </div>
 </div>
 
 {% endblock %}

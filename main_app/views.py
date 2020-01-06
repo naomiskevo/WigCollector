@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.views.generic.edit import CreateView
+from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Wig
 
 class WigCreate(CreateView):
@@ -9,6 +9,14 @@ class WigCreate(CreateView):
   def form_valid(self, form):
     form.instance.user = self.request.user
     return super().form_valid(form)
+
+class WigUpdate(UpdateView):
+  model = Wig
+  fields = ['origin', 'description', 'length']
+
+class WigDelete(DeleteView):
+  model = Wig
+  success_url = '/wigs/'
 
 
 # Create your views here.
