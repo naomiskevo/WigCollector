@@ -3,16 +3,60 @@
 
 <h1>Wig Details</h1>
 
-<div class="card">
-  <div class="card-content">
-    <span class="card-title">{{ wig.name }}</span>
-    <p>Origin: {{ wig.origin }}</p>
-    <p>Description: {{ wig.description }}</p>
-    <p>Length: {{ wig.length }}</p>
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ wig.name }}</span>
+        <p>Origin: {{ wig.origin }}</p>
+        <p>Description: {{ wig.description }}</p>
+        <p>Length: {{ wig.length }}</p>
+
+      </div>
+      <div class="card-action">
+        <a href="{% url 'wigs_update' wig.id %}">Edit</a>
+        <a href="{% url 'wigs_delete' wig.id %}">Delete</a>
+      </div>
+    </div>
+    <!-- Insert photo markup below this comment -->
+    <!-- {% for photo in wig.photo_set.all %}
+      <img class="responsive-img card-panel" src="{{photo.url}}">
+    {% empty %}
+      <div class="card-panel teal-text center-align">No Photos Uploaded</div>
+    {% endfor %}
+
+    <form action="{% url 'add_photo' wig.id %}" enctype="multipart/form-data" method="POST" class="card-panel">
+      {% csrf_token %}
+      <input type="file" name="photo-file">
+      <br><br>
+      <input type="submit" class="btn" value="Upload Photo">
+  </form> -->
   </div>
-  <div class="card-action">
-    <a href="{% url 'wigs_update' wig.id %}">Edit</a>
-    <a href="{% url 'wigs_delete' wig.id %}">Delete</a>
+  <div class="col s6">
+    <form action="{% url 'add_condition' wig.id %}" method="post">
+      {% csrf_token %}
+      {{ condition_form.as_p }}
+      <input type="submit" class="btn" value="Add Condition">
+    </form>
+    <br>
+    {% if wig.conditioned_for_today %}
+      <div class="card-panel teal-text center-align">{{wig.name}} has had all the treatments for today</div>
+    {% else %}
+      <div class="card-panel red-text center-align">{{wig.name}} might be dry</div>
+    {% endif %}
+    <table class="striped">
+      <thead>
+        <tr><th>Date</th><th>Treatment</th></tr>
+      </thead>
+      <tbody>
+        {% for condition in wig.condition_set.all %}
+          <tr>
+            <td>{{condition.date}}</td>
+            <td>{{condition.get_treatment_display}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </div>
 

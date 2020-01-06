@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .models import Wig
+from .forms import ConditionForm
 
 class WigCreate(CreateView):
   model = Wig
@@ -32,4 +33,19 @@ def wigs_index(request):
 
 def wigs_detail(request, wig_id):
     wig = Wig.objects.get(id=wig_id)
-    return render(request, 'wigs/detail.html', { 'wig': wig })
+    condition_form = ConditionForm()
+    return render(request, 'wigs/detail.html', { 
+        'wig': wig, 'condition_form': condition_form, 
+    })
+
+def add_condition(request, wig_id):
+	# create the ModelForm using the data in request.POST
+    form = ConditionForm(request.POST)
+  # validate the form
+    if form.is_valid():
+    # don't save the form to the db until it
+    # has the cat_id assigned
+        new_condition = form.save(commit=False)
+        new_condition.wig_id = wig_id
+        new_condition.save()
+    return redirect('detail', wig_id=wig_id)
