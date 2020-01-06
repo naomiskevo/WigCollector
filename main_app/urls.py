@@ -11,4 +11,5 @@ urlpatterns = [
     path('wigs/<int:pk>/update/', views.WigUpdate.as_view(), name='wigs_update'),
     path('wigs/<int:pk>/delete/', views.WigDelete.as_view(), name='wigs_delete'),
     path('wigs/<int:wig_id>/add_condition/', views.add_condition, name='add_condition'),
+    path('wigs/<int:wig_id>/add_photo/', views.add_photo, name='add_photo'),
 ]
