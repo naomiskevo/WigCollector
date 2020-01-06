@@ -3,6 +3,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Wig, Type, Photo
 from .forms import ConditionForm
 import uuid
@@ -11,7 +13,7 @@ import boto3
 S3_BASE_URL = 'https://s3-us-east-2.amazonaws.com/'
 BUCKET = 'wigcollector'
 
-class WigCreate(CreateView):
+class WigCreate(LoginRequiredMixin, CreateView):
   model = Wig
   fields = ['name', 'origin', 'description', 'length']
 
@@ -19,11 +21,11 @@ class WigCreate(CreateView):
     form.instance.user = self.request.user
     return super().form_valid(form)
 
-class WigUpdate(UpdateView):
+class WigUpdate(LoginRequiredMixin, UpdateView):
   model = Wig
   fields = ['origin', 'description', 'length']
 
-class WigDelete(DeleteView):
+class WigDelete(LoginRequiredMixin, DeleteView):
   model = Wig
   success_url = '/wigs/'
 
@@ -35,10 +37,12 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required
 def wigs_index(request):
-    wigs = Wig.objects.all()
+    wigs = Wig.objects.filter(user=request.user)
     return render(request, 'wigs/index.html', { 'wigs': wigs})
 
+@login_required
 def wigs_detail(request, wig_id):
     wig = Wig.objects.get(id=wig_id)
     condition_form = ConditionForm()
@@ -46,6 +50,7 @@ def wigs_detail(request, wig_id):
         'wig': wig, 'condition_form': condition_form, 
     })
 
+@login_required
 def add_condition(request, wig_id):
 	# create the ModelForm using the data in request.POST
     form = ConditionForm(request.POST)
@@ -58,13 +63,13 @@ def add_condition(request, wig_id):
         new_condition.save()
     return redirect('detail', wig_id=wig_id)
 
-class TypeList(ListView):
+class TypeList(LoginRequiredMixin, ListView):
     model = Type
 
-class TypeDetail(DetailView):
+class TypeDetail(LoginRequiredMixin, DetailView):
     model = Type
 
-class TypeCreate(CreateView):
+class TypeCreate(LoginRequiredMixin, CreateView):
     model = Type
     fields = '__all__'
 
@@ -72,10 +77,11 @@ class TypeUpdate(UpdateView):
     model = Type
     fields = ['part', 'make']
 
-class TypeDelete(DeleteView):
+class TypeDelete(LoginRequiredMixin, DeleteView):
     model = Type
     success_url = '/types/'
 
+@login_required
 def add_photo(request, wig_id):
     # photo-file will be the "name" attribute on the <input type="file">
     photo_file = request.FILES.get('photo-file', None)
