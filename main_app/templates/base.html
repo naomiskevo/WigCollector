@@ -18,13 +18,12 @@
           <li><a href="/" class="left brand-logo">&nbsp;&nbsp;WigCollector</a></li>
         </ul>
         <ul class="right">
-          <!-- changes below -->
           <li><a href="{% url 'about' %}">About</a></li>
           {% if user.is_authenticated %}
             <li><a href="{% url 'types_create' %}">Add a Type</a></li>
             <li><a href="{% url 'types_index' %}">View All Types</a></li>
             <li><a href="{% url 'wigs_create' %}">Add a Wig</a></li>
-            <li><a href="{% url 'index' %}">View All My Cats</a></li>
+            <li><a href="{% url 'index' %}">View All My Wigs</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
           {% else %}
             <li><a href="{% url 'signup' %}">Sign Up</a></li>
