@@ -17,4 +17,5 @@ urlpatterns = [
     path('types/create/', views.TypeCreate.as_view(), name='types_create'),
     path('types/<int:pk>/update/', views.TypeUpdate.as_view(), name='types_update'),
     path('types/<int:pk>/delete/', views.TypeDelete.as_view(), name='types_delete'),
+    path('accounts/signup/', views.signup, name='signup'),
 ]
